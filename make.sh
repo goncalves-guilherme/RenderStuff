@@ -2,11 +2,13 @@
 
 command=$1
 
+build_path="./out/build"
+
 do_clean() {
 
     echo "#### Cleanning ####"
 
-    rm -R ./../out/build/*
+    rm -R build_path/*
 
     echo "done"
 }
@@ -15,16 +17,16 @@ do_compile() {
     
     echo "#### Compiling ####"
     
-    cmake -S ./../ -B ./../out/build/
+    cmake -S ./ -B build_path
 
-    make -C ./../out/build/
+    make -C build_path
 }
 
 do_run() {
 
     echo "#### Running ####"
 
-    ./../out/build/RH
+    build_path/RH
 }
 
 do_nothing() {
