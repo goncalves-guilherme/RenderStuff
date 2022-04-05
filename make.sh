@@ -8,7 +8,7 @@ do_clean() {
 
     echo "#### Cleanning ####"
 
-    rm -R build_path/*
+    rm -R "$build_path"/*
 
     echo "done"
 }
@@ -17,16 +17,16 @@ do_compile() {
     
     echo "#### Compiling ####"
     
-    cmake -S ./ -B build_path
+    cmake -DGLFW_BUILD_DOCS=OFF -S ./ -B $build_path
 
-    make -C build_path
+    make -C $build_path
 }
 
 do_run() {
 
     echo "#### Running ####"
 
-    build_path/RH
+    $build_path/RH
 }
 
 do_nothing() {
