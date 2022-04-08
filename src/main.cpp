@@ -13,13 +13,15 @@ GLuint createShaderProgram()
     const char *vshaderSource =
 		"#version 430 \n"
 		"void main(void) \n"
-		"{ gl_Position = vec4(0.0, 0.0, 0.0, 1.0); }";
+		"{ if(gl_VertexID == 0) gl_Position = vec4(0.25, -0.25, 0.0, 1.0); \n"
+        "else if(gl_VertexID == 1) gl_Position = vec4(-0.25, -0.25, 0.0, 1.0); \n"
+        "else gl_Position = vec4(0.25, 0.25, 0.0, 1.0);}";
 
     const char *fshaderSource =
 		"#version 430 \n"
 		"out vec4 color; \n"	
         "void main(void) \n"
-		"{ color = vec4(0.0, 0.0, 1.0, 1.0); }";
+		"{ color = vec4(0.0, 1.0, 0.0, 1.0); }";
 
     GLuint vShader = glCreateShader(GL_VERTEX_SHADER);
     GLuint fShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -38,6 +40,13 @@ GLuint createShaderProgram()
     return vfProgram;
 }
 
+void freeMemory()
+{
+    //glDeleteShader(vShader);
+    //glDeleteShader(fShader);  
+
+}
+
 void init(GLFWwindow* window)
 {
     renderingProgram = createShaderProgram();
@@ -45,12 +54,15 @@ void init(GLFWwindow* window)
     glBindVertexArray(vao[0]);
 }
 
-void display(GLFWwindow* window, double currentTime) {
-    glUseProgram(renderingProgram);
-    glPointSize(100.0);
-    glDrawArrays(GL_POINTS, 0, 1);
-}
+void display(GLFWwindow* window, double currentTime) 
+{
+    glClearColor(1.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
 
+    glUseProgram(renderingProgram);
+    glPointSize(10);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
+}
 
 int main()
 {

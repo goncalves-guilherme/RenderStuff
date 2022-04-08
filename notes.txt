@@ -1,0 +1,6 @@
+### Opengl ###
+
+### Shaders 
+    
+    -> Shaders created with glCreateShader needs to be deleted with glDeleteShader to free memory in gpu.
+    Also to that work we need to detach shaders from their program created using glCreateProgram.
