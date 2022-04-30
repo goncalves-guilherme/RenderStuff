@@ -2,12 +2,18 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "ErrorHandling/error_handling.h"
+
 using namespace std;
+
+GLuint create_shader_program();
+void add_vertice_array_buffers();
+void free_render_resources();
 
 GLuint renderingProgram;
 unsigned int VBO, VAO;
 
-GLuint createShaderProgram()
+GLuint create_shader_program()
 {
     const char *vshaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
@@ -70,7 +76,7 @@ GLuint createShaderProgram()
     return vfProgram;
 }
 
-void addVerticeArrayBuffers()
+void add_vertice_array_buffers()
 {
     float vertices[] = {
         -0.5f, -0.5f, 0.0f, // left  
@@ -99,7 +105,7 @@ void addVerticeArrayBuffers()
     glBindVertexArray(0); 
 }
 
-void freeResources()
+void free_render_resources()
 {
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
@@ -108,20 +114,8 @@ void freeResources()
 
 void init(GLFWwindow* window)
 {
-    renderingProgram = createShaderProgram();
+    renderingProgram = create_shader_program();
 }
-
-void messageLogCallback(
-    GLenum source,
-    GLenum type,
-    GLuint id,
-    GLenum severity,
-    GLsizei length,
-    const GLchar *message,
-    const void *userParam)
-    {
-        std::cout << "OpenGL Error: " << message << std::endl;
-    }
 
 int main()
 {
@@ -158,10 +152,10 @@ int main()
 
     // Set Debug Handler
     glEnable(GL_DEBUG_OUTPUT);
-    glDebugMessageCallback(&messageLogCallback, 0);
+    glDebugMessageCallback(&message_log_callback, 0);
     glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 
-    addVerticeArrayBuffers();
+    add_vertice_array_buffers();
 
     while (!glfwWindowShouldClose(window)) 
     {
@@ -177,7 +171,7 @@ int main()
 		glfwPollEvents();
     }
 
-    freeResources();
+    free_render_resources();
 
     glfwDestroyWindow(window);
     glfwTerminate();

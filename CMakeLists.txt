@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 ## Dependencies ##
 
-add_subdirectory(external)
+add_subdirectory(extern)
 
 ## Build App ##
 
